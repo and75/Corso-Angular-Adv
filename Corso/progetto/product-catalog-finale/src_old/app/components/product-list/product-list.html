@@ -1,0 +1,29 @@
+<!--
+  PRODUCT LIST — SOLUZIONE COMPLETA
+  Griglia responsiva con @for, @empty e relay di eventi.
+-->
+
+<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+
+  <!--
+    @for itera su filteredProducts (il getter che filtra per categoria).
+    track product.id: Angular usa l'id per tracciare gli elementi nel DOM.
+    Se un prodotto viene rimosso dalla lista filtrata, Angular rimuove solo quel nodo.
+  -->
+  @for (product of filteredProducts; track product.id) {
+    <app-product-card
+      [product]="product"
+      (addToCart)="onAddToCart($event)"
+    />
+  } @empty {
+    <!--
+      @empty si attiva quando filteredProducts.length === 0.
+      col-span-full: occupa tutte le colonne della griglia.
+    -->
+    <div class="col-span-full text-center py-12 text-gray-400">
+      <p class="text-lg">Nessun prodotto in questa categoria</p>
+      <p class="text-sm mt-1">Prova a selezionare un'altra categoria</p>
+    </div>
+  }
+
+</div>

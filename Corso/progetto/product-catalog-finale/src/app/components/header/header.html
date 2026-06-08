@@ -1,0 +1,50 @@
+<!--
+  header.html — SOLUTION Lab 3 G2
+  Delta: aggiunto link "👁️" che apre il named outlet "panel" via [routerLink]="[{ outlets: { panel: ['cart'] } }]".
+  queryParamsHandling="preserve" → mantiene q/page/altri queryparam dell'utente.
+-->
+
+<header class="bg-teal-700 text-white shadow-md sticky top-0 z-10">
+  <div class="max-w-6xl mx-auto px-4 py-4 flex items-center justify-between">
+
+    <div class="flex items-center gap-3">
+      <div class="w-8 h-8 bg-white rounded-lg flex items-center justify-center">
+        <span class="text-teal-700 font-black text-sm">GS</span>
+      </div>
+      <div>
+        <span class="text-xl font-bold">{{ appName }}</span>
+        <span class="text-xs opacity-80 block">{{ productCount }} in catalogo</span>
+      </div>
+    </div>
+
+    <nav class="flex items-center gap-3">
+      <a routerLink="/home" routerLinkActive="bg-teal-600"
+         class="text-sm font-medium px-4 py-1.5 rounded-full border border-teal-400 hover:bg-teal-600 transition-colors">
+        Home
+      </a>
+      <a routerLink="/admin" routerLinkActive="bg-teal-600"
+         class="text-sm font-medium px-4 py-1.5 rounded-full border border-teal-400 hover:bg-teal-600 transition-colors">
+        Admin
+      </a>
+      <a routerLink="/checkout" routerLinkActive="bg-teal-600"
+         class="relative text-sm font-medium px-4 py-1.5 rounded-full border border-teal-400
+                hover:bg-teal-600 transition-colors flex items-center gap-2">
+        Carrello
+        @if (cartCount > 0) {
+          <span class="bg-white text-teal-700 text-xs font-bold px-2 py-0.5 rounded-full">
+            {{ cartCount }}
+          </span>
+        }
+      </a>
+
+      <!-- ✅ TODO 5: apre il named outlet "panel" con la rotta "cart" -->
+      <a [routerLink]="[{ outlets: { panel: ['cart'] } }]"
+         queryParamsHandling="preserve"
+         class="text-sm font-medium px-3 py-1.5 rounded-full border border-teal-400 hover:bg-teal-600 transition-colors"
+         title="Apri anteprima carrello">
+        👁️
+      </a>
+    </nav>
+
+  </div>
+</header>

@@ -1,0 +1,19 @@
+<!--
+  LAB 2 — SOLUTION
+  ─────────────────────────────────────────────────────────────────────────────
+  File: src/app/components/carousel/carousel.html
+  Struttura imposta da Splide: section.splide → div.splide__track → ul.splide__list → li.splide__slide
+  La reference #host è quella che il viewChild.required('host') legge in TS.
+  ─────────────────────────────────────────────────────────────────────────────
+-->
+<section #host class="splide" aria-label="Promozioni">
+  <div class="splide__track">
+    <ul class="splide__list">
+      @for (s of slides(); track s) {
+        <li class="splide__slide bg-teal-50 text-teal-800 text-center py-6 font-semibold">
+          {{ s }}
+        </li>
+      }
+    </ul>
+  </div>
+</section>

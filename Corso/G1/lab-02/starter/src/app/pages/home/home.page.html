@@ -1,0 +1,109 @@
+<!--
+  LAB 2 — STARTER (parte da Lab 1 applicato)
+  ─────────────────────────────────────────────────────────────────────────────
+  File: src/app/pages/home/home.page.html
+
+  Il template parte dallo stato di Lab 1 (multi-slot + quickViewAnchor). In
+  questo lab modifichiamo SOLO la parte sopra al campo di ricerca per
+  aggiungere il carousel promozionale.
+  ─────────────────────────────────────────────────────────────────────────────
+-->
+
+<div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+
+    <!-- COLONNA SINISTRA: filtro + griglia prodotti (2/3 della larghezza) -->
+    <div class="lg:col-span-2">
+
+        <!--
+          TODO 5 — [FACILE] Aggiungi qui sotto il tag <app-carousel ... /> con:
+            - input "slides": un array di 3 stringhe statiche con messaggi
+              promozionali (es. "🚀 Spedizione gratuita oltre 50€",
+              "🎁 Reso entro 30 giorni", "🛡️ Garanzia 2 anni").
+            - class="block mb-6" per dargli un po' di margin-bottom e renderlo
+              block (di default <app-carousel> è inline come tutti i custom element).
+
+          Va sopra al <div class="mb-4"> con il campo di ricerca qui sotto.
+          Senza l'import del componente in home.page.ts (TODO 5 lato TS),
+          il template darà "is not a known element".
+        -->
+
+        <div class="mb-4">
+            <input type="text" [(ngModel)]="searchTerm" placeholder="Cerca per nome o descrizione..." class="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm
+           focus:outline-none focus:ring-2 focus:ring-teal-500" />
+        </div>
+
+        <div class="flex flex-wrap gap-2 mb-4">
+            @for (cat of categories; track cat) {
+            <button (click)="onSelectCategory(cat)"
+                [class]="selectedCategory === cat
+                ? 'bg-teal-600 text-white px-3 py-1 rounded-full text-xs font-medium transition-colors'
+                : 'bg-gray-200 text-gray-600 hover:bg-gray-300 px-3 py-1 rounded-full text-xs font-medium transition-colors'">
+                {{ cat }}
+            </button>
+            }
+        </div>
+
+        @if (isLoading) {
+        <div class="flex flex-col items-center justify-center py-24">
+            <div class="w-12 h-12 border-4 border-gray-200 border-t-teal-600 rounded-full animate-spin mb-4"></div>
+            <p class="text-gray-500 text-sm">Caricamento prodotti...</p>
+        </div>
+        } @else if (error) {
+        <div class="flex flex-col items-center justify-center py-24">
+            <p class="text-5xl mb-4">⚠️</p>
+            <p class="text-gray-700 font-medium mb-2">Si è verificato un errore</p>
+            <p class="text-gray-500 text-sm mb-6">{{ error }}</p>
+            <button (click)="retry()"
+                class="px-4 py-2 bg-teal-600 hover:bg-teal-700 text-white rounded-lg text-sm transition-colors">
+                Riprova
+            </button>
+        </div>
+
+        } @else {
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            @for (product of filteredProducts; track product.id) {
+            <app-card-container [title]="product.name" [variant]="getVariant(product)">
+                <app-product-card [product]="product" (addToCart)="onAddToCart($event)">
+
+                  @if (product.price > 1000) {
+                    <span badge
+                          class="text-xs font-medium bg-amber-100 text-amber-700 px-2 py-0.5 rounded-full">
+                      🌟 Premium
+                    </span>
+                  }
+
+                  <button footer
+                          (click)="openQuickView(product); $event.stopPropagation()"
+                          class="w-full text-xs border border-teal-600 text-teal-600 hover:bg-teal-50 px-3 py-1.5 rounded-lg transition-colors font-medium">
+                    Anteprima
+                  </button>
+
+                </app-product-card>
+            </app-card-container>
+            } @empty {
+            <p class="text-gray-400 text-sm col-span-2">
+                Nessun prodotto in questa categoria.
+            </p>
+            }
+        </div>
+        }
+
+        <p class="text-sm text-gray-500 mt-4 text-right">
+            {{ (filteredProducts | filterProducts : searchTerm).length }} prodotti trovati
+        </p>
+
+    </div>
+
+    <!-- COLONNA DESTRA: riepilogo carrello (1/3 della larghezza) -->
+    <div class="lg:col-span-1">
+        <app-cart-summary
+          [cartItems]="productService.cartItems()"
+          (clearCart)="onClearCart()"
+          (removeItem)="onRemoveItem($event)"
+        />
+    </div>
+
+</div>
+
+<!-- (Lab 1) ancora per createComponent(ProductQuickView) -->
+<ng-container #quickViewAnchor></ng-container>

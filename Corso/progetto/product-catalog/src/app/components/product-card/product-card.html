@@ -1,0 +1,46 @@
+<!-- product-card.html — SOLUZIONE lab-15b -->
+<!-- Delta rispetto a lab-detail (TODO 5):
+     - product.xxx     →  product().xxx      (parentesi obbligatorie per leggere il signal)
+     - product.price | currency  →  formattedPrice()   (computed signal)
+     - (click)="goToDetail()" e $event.stopPropagation() → invariati
+     Regola d'oro: ogni signal/computed nel template si chiama con () -->
+
+<div (click)="goToDetail()"
+     class="block bg-white overflow-hidden border cursor-pointer hover:shadow-md transition-shadow"
+     [ngClass]="{
+       'border-gray-100': product().available,
+       'border-red-200 border-4 bg-red-50 opacity-40': !product().available
+     }">
+
+  <div class="bg-gradient-to-br from-gray-100 to-gray-200 h-40 flex items-center justify-center">
+    <span class="text-5xl">📦</span>
+  </div>
+
+  <div class="p-4">
+    <span class="text-xs font-medium bg-teal-100 text-teal-700 px-2 py-0.5 rounded-full">
+      {{ product().category }}
+    </span>
+
+    <h3 class="font-semibold text-gray-800 mt-2 text-sm leading-tight">
+      {{ product().name }}
+    </h3>
+
+    <p class="text-xs text-gray-500 mt-1 line-clamp-2">{{ product().description }}</p>
+
+    <div class="flex items-center justify-between mt-3">
+      <!-- ✅ formattedPrice() — computed signal (non più CurrencyPipe) -->
+      <span class="font-bold text-teal-700 text-lg">
+        {{ formattedPrice() }}
+      </span>
+
+      @if (product().available) {
+        <button (click)="$event.stopPropagation(); onAddToCartClick()"
+          class="text-xs bg-teal-600 hover:bg-teal-700 text-white px-3 py-1.5 rounded-lg transition-colors font-medium">
+          + Aggiungi
+        </button>
+      } @else {
+        <span class="text-xs text-gray-400 italic">Non disponibile</span>
+      }
+    </div>
+  </div>
+</div>

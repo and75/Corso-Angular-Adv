@@ -1,0 +1,35 @@
+<!--
+  LAB 2 — STARTER
+  ─────────────────────────────────────────────────────────────────────────────
+  File: src/app/components/carousel/carousel.html
+  ─────────────────────────────────────────────────────────────────────────────
+
+  TODO 4 — [TEMPLATE] Scrivere il markup richiesto da Splide.
+
+    Splide impone una struttura HTML precisa: ne deviare comporta che la
+    mount fallisce silenziosamente o le slide non si vedono.
+
+    Albero richiesto:
+      <section class="splide" aria-label="...">
+        <div class="splide__track">
+          <ul class="splide__list">
+            <li class="splide__slide">  ← un <li> per ogni slide
+              … contenuto della slide …
+            </li>
+          </ul>
+        </div>
+      </section>
+
+    Adattamento per il nostro Carousel:
+     - Sul <section> esterno, aggiungi la reference variable di template "#host":
+       è quella che viewChild.required('host') legge dal TS (TODO 4 nel .ts).
+     - aria-label="Promozioni" (accessibilità).
+     - Cicla con @for sul signal slides() (con parentesi) — track s.
+     - Per ogni slide, contenuto di esempio: il valore dell'elemento del ciclo
+       (uno string come "🚀 Spedizione gratuita oltre 50€"), centrato, con
+       padding sopra/sotto e sfondo teal-50 / testo teal-800 in semibold.
+
+    Ricorda: slides() — signal input letto con le parentesi.
+
+  ─────────────────────────────────────────────────────────────────────────────
+-->

@@ -1,0 +1,88 @@
+<!-- product-detail.page.html — SOLUZIONE lab-detail -->
+
+<div class="max-w-3xl mx-auto px-4 py-8">
+
+  <!-- Back link -->
+  <a routerLink="/home"
+     class="inline-flex items-center gap-1 text-sm text-teal-600 hover:text-teal-800
+            mb-6 transition-colors">
+    ← Torna al catalogo
+  </a>
+
+  <!-- Spinner di caricamento: visibile solo mentre isLoading() è true -->
+  @if (isLoading()) {
+    <div class="flex items-center justify-center py-24">
+      <div class="w-10 h-10 border-4 border-teal-600 border-t-transparent
+                  rounded-full animate-spin"></div>
+    </div>
+  }
+
+  <!-- Messaggio di errore: error() è stringa vuota '' (falsy) in assenza di errori -->
+  @if (error()) {
+    <div class="bg-red-50 border border-red-200 rounded-xl p-6 text-center">
+      <p class="text-red-700 font-medium">{{ error() }}</p>
+      <a routerLink="/home"
+         class="text-sm text-red-500 underline mt-2 inline-block">
+        Torna alla home
+      </a>
+    </div>
+  }
+
+  <!--
+    @if (product(); as p)
+    Aliasing: legge il signal una volta e lo assegna a 'p'.
+    Il blocco non viene renderizzato se product() è null.
+  -->
+  @if (product(); as p) {
+    <div class="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
+
+      <!-- Immagine placeholder (imageUrl è vuoto nel db.json dei lab) -->
+      <div class="bg-gradient-to-br from-gray-100 to-gray-200 h-56
+                  flex items-center justify-center">
+        <span class="text-8xl">📦</span>
+      </div>
+
+      <div class="p-8">
+
+        <!-- Categoria + disponibilità -->
+        <div class="flex items-center justify-between mb-3">
+          <span class="text-xs font-semibold text-teal-700 bg-teal-50
+                       px-3 py-1 rounded-full uppercase tracking-wider">
+            {{ p.category }}
+          </span>
+          @if (p.available) {
+            <span class="text-xs font-semibold text-green-600 bg-green-50
+                         px-3 py-1 rounded-full">Disponibile</span>
+          } @else {
+            <span class="text-xs font-semibold text-red-500 bg-red-50
+                         px-3 py-1 rounded-full">Esaurito</span>
+          }
+        </div>
+
+        <!-- Nome prodotto -->
+        <h1 class="text-3xl font-bold text-gray-900 mb-2">{{ p.name }}</h1>
+
+        <!-- Prezzo formattato con CurrencyPipe -->
+        <p class="text-2xl font-extrabold text-teal-700 mb-4">
+          {{ p.price | currency:'EUR':'symbol':'1.2-2' }}
+        </p>
+
+        <!-- Descrizione (opzionale nel model) -->
+        @if (p.description) {
+          <p class="text-gray-600 leading-relaxed mb-6">{{ p.description }}</p>
+        }
+
+        <!-- CTA: visibile solo se il prodotto è disponibile -->
+        @if (p.available) {
+          <button (click)="onAddToCart()"
+            class="w-full bg-teal-600 hover:bg-teal-700 text-white
+                   font-semibold py-3 rounded-xl transition-colors">
+            + Aggiungi al carrello
+          </button>
+        }
+
+      </div>
+    </div>
+  }
+
+</div>

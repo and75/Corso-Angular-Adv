@@ -1,0 +1,37 @@
+<!--
+  LAB 2 — SOLUTION
+  ─────────────────────────────────────────────────────────────────────────────
+  File: src/app/app.html
+  Delta rispetto al seme: aggiunto <app-toast /> come ultima riga prima del </div>.
+  Vivendo nel root, è visibile da ogni pagina e usa lo stesso singleton.
+  ─────────────────────────────────────────────────────────────────────────────
+-->
+
+<div class="min-h-screen bg-gray-50 flex flex-col">
+
+  <app-header [appName]="appName" [cartCount]="itemCount()" />
+
+  <div class="bg-teal-500 text-white text-center py-2">
+    @if (showTimer) {
+    <app-live-timer [format]="timerFormat" />
+    <button (click)="switchFormat()"
+      class="ml-2 bg-teal-600 text-white px-3 py-1 rounded-full text-xs font-medium transition-colors hover:bg-teal-700">
+      Cambia formato
+    </button>
+    }
+    <button (click)="toggleTimer()"
+      class="ml-4 bg-teal-600 text-white px-3 py-1 rounded-full text-xs font-medium transition-colors hover:bg-teal-700">
+      {{ showTimer ? 'Nascondi' : 'Mostra' }} orologio
+    </button>
+  </div>
+
+  <main class="flex-1 max-w-6xl mx-auto w-full px-4 py-6">
+    <router-outlet />
+  </main>
+
+  <app-footer />
+
+  <!-- ✅ TODO 3: stack toast globale, usa lo stesso singleton NotificationService da qualunque pagina -->
+  <app-toast />
+
+</div>

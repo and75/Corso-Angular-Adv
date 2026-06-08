@@ -1,0 +1,18 @@
+<!--
+  LAB 1 — SOLUTION
+  ─────────────────────────────────────────────────────────────────────────────
+  File: src/app/components/product-quick-view/product-quick-view.html
+  Posizione: fixed bottom-right, sopra agli altri elementi (z-20).
+  Pattern: ogni signal/computed nel template si legge con le parentesi.
+  ─────────────────────────────────────────────────────────────────────────────
+-->
+<aside class="fixed bottom-4 right-4 w-80 bg-white rounded-xl shadow-xl border p-4 z-20">
+  <header class="flex justify-between items-start mb-2">
+    <h3 class="font-bold text-teal-700">{{ product().name }}</h3>
+    <button (click)="close.emit()"
+            class="text-gray-400 hover:text-gray-700 text-lg leading-none">✕</button>
+  </header>
+  <p class="text-sm text-gray-600 mb-2">{{ product().description }}</p>
+  <p class="text-lg font-bold text-teal-700">{{ formattedPrice() }}</p>
+  <p class="text-xs text-gray-500 mt-1">Categoria: {{ product().category }}</p>
+</aside>

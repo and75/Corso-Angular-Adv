@@ -1,0 +1,80 @@
+<!--
+  CATALOG PAGE — Template lista prodotti
+
+  FLUSSO DELL'INTERFACCIA:
+  1. Componente creato → isLoading = true → mostra spinner
+  2. ngOnInit() → HTTP GET /products → subscribe
+  3a. Successo → products = [...], isLoading = false → mostra griglia
+  3b. Errore   → error = "...", isLoading = false    → mostra errore
+
+  COMPONENTI RIUTILIZZATI:
+  - <app-search-bar>   → SearchBar dal Lab 05 (invariato)
+  - <app-product-card> → ProductCard dal Lab 03 (invariato)
+  I componenti riutilizzabili NON cambiano — si adattano al nuovo contesto.
+-->
+<div class="max-w-6xl mx-auto px-4 py-6">
+
+  <h1 class="text-2xl font-bold text-gray-800 mb-6">Catalogo Prodotti</h1>
+
+  <!--
+    SearchBar — componente riutilizzato dal progetto.
+    (searchChange) → emette il termine di ricerca ad ogni keystroke.
+    onSearchChange() aggiorna this.searchTerm → usato sotto nel @for
+    Nota: il filtro è client-side (già caricato) — non fa una nuova chiamata HTTP.
+  -->
+  
+
+  <!--
+    @if / @else if / @else — control flow sintattico (Angular 17+)
+    Alternativa precedente: *ngIf (structural directive) con CommonModule
+  -->
+  @if (isLoading) {
+    <div class="text-center py-12 text-gray-400">
+      <p class="text-4xl mb-3 animate-pulse">⏳</p>
+      <p>Caricamento prodotti...</p>
+    </div>
+
+  } @else if (error) {
+    <div class="text-center py-12">
+      <p class="text-5xl mb-4">⚠️</p>
+      <p class="text-red-500 font-medium mb-2">{{ error }}</p>
+      <p class="text-gray-400 text-sm">
+        Verifica che json-server sia in esecuzione:<br>
+        <code class="bg-gray-100 px-2 py-0.5 rounded text-xs">json-server --watch db.json</code>
+      </p>
+    </div>
+
+  } @else {
+    <!--
+      Filtro client-side tramite pipe (riuso da lab precedenti).
+      Nota: se non hai FilterProductsPipe, puoi usare:
+        [product of products | filter:searchTerm]
+      oppure un getter:
+        get filteredProducts() { return this.products.filter(...) }
+    -->
+    <p class="text-sm text-gray-500 mb-4">
+      {{ products.length }} prodott{{ products.length === 1 ? 'o' : 'i' }} trovati
+    </p>
+
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+      <!--
+        @for con track → obbligatorio in Angular 17+ per le performance.
+        track product.id → Angular usa l'id per identificare ogni elemento
+        e aggiornare solo le card modificate (non tutta la lista).
+      -->
+      @for (product of products; track product.id) {
+        <!--
+          ProductCard — componente riutilizzato invariato.
+          [product]          → @Input: il prodotto da mostrare
+          (addToCart)        → @Output: emette quando si clicca "Aggiungi"
+          (viewDetail)       → @Output: emette l'id quando si clicca la card
+        -->
+        <app-product-card
+          [product]="product"
+          (addToCart)="onAddToCart($event)"
+        />
+      }
+    </div>
+  }
+
+</div>

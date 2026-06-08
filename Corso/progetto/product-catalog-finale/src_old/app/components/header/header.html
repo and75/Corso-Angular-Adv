@@ -1,0 +1,31 @@
+<!--
+  LAB 04 — STARTER
+  ─────────────────────────────────────────────────────────────────────────────
+  File: components/header/header.html
+  Template dell'header — identico al Lab 03 solution.
+  ─────────────────────────────────────────────────────────────────────────────
+-->
+
+<header class="bg-teal-700 text-white shadow-md sticky top-0 z-10">
+  <div class="max-w-6xl mx-auto px-6 py-4 flex items-center justify-between">
+
+    <!-- Logo + Titolo: interpolazione di appName -->
+    <div class="flex items-center gap-3">
+      <div class="w-8 h-8 bg-white rounded-lg flex items-center justify-center">
+        <span class="text-teal-700 font-black text-sm">AC</span>
+      </div>
+      <span class="text-xl font-bold">{{ appName }}</span>
+    </div>
+
+    <!-- Badge carrello con @if — già completato nel Lab 03 -->
+    <div class="flex items-center gap-2">
+      <span class="text-sm text-teal-100">Carrello</span>
+      @if (cartCount > 0) {
+        <span class="bg-white text-teal-700 text-xs font-bold px-2 py-0.5 rounded-full">
+          {{ cartCount }}
+        </span>
+      }
+    </div>
+
+  </div>
+</header>

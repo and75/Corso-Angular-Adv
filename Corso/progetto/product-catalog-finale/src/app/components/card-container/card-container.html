@@ -1,0 +1,13 @@
+<div class="bg-white rounded-xl shadow-md border border-gray-100 overflow-hidden">
+
+  @if (title) {
+    <div [class]="'px-4 py-3 ' + headerClass">
+      <h3 class="font-semibold text-sm">{{ title }}</h3>
+    </div>
+  }
+
+  <div class="p-4">
+    <ng-content></ng-content>
+  </div>
+
+</div>

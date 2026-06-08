@@ -1,0 +1,40 @@
+<!--
+  HOME PAGE — Template pagina di benvenuto
+
+  [routerLink]="['/catalog']" → naviga a /catalog senza ricaricare la pagina.
+  Angular intercetta il click, aggiorna l'URL, e inserisce CatalogPage
+  nel <router-outlet> dell'App — tutto senza toccare il server.
+
+  Questo è il principio fondamentale di una SPA (Single Page Application):
+  la pagina HTML non viene mai ricaricata. Solo il contenuto interno cambia.
+-->
+<div class="max-w-6xl mx-auto px-4 py-16 text-center">
+
+  <p class="text-6xl mb-6">🛍️</p>
+
+  <h1 class="text-4xl font-bold text-gray-800 mb-4">
+    Benvenuto nel Product Catalog
+  </h1>
+
+  <p class="text-gray-500 mb-8 max-w-md mx-auto text-lg">
+    Esplora il nostro catalogo di prodotti.
+    Usa la navigazione in alto per scoprire i prodotti disponibili.
+  </p>
+
+  <!--
+    Notazione array per routerLink → preferita:
+    [routerLink]="['/catalog']"    → /catalog
+    [routerLink]="['/products', 1]" → /products/1
+
+    Notazione stringa → accettabile per path semplici:
+    [routerLink]="'/catalog'"
+  -->
+  <a
+    [routerLink]="['/catalog']"
+    class="inline-block px-8 py-3 bg-teal-600 hover:bg-teal-700 text-white
+           rounded-lg font-medium transition-colors text-lg shadow-md"
+  >
+    Vai al Catalogo →
+  </a>
+
+</div>

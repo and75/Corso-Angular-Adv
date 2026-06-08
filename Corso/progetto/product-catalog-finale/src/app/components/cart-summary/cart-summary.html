@@ -1,0 +1,60 @@
+<div class="bg-white rounded-xl shadow-md border border-gray-100 p-4">
+
+    <!-- INTESTAZIONE: titolo + badge quantità + pulsante svuota -->
+    <div class="flex items-center justify-between mb-4">
+        <h2 class="text-base font-semibold text-gray-800 flex items-center gap-2">
+            🛒 Carrello
+            @if (totalItems > 0) {
+            <span class="bg-teal-600 text-white text-xs px-2 py-0.5 rounded-full">
+                {{ totalItems }}
+            </span>
+            }
+        </h2>
+
+        @if (cartItems.length > 0) {
+        <button class="text-xs text-red-400 hover:text-red-600 transition-colors" (click)="onClearCart()">
+            Svuota
+        </button>
+        }
+    </div>
+
+    @if (cartItems.length > 0) {
+
+    <!-- LISTA ITEM -->
+    <div class="space-y-3 mb-4">
+        @for (item of cartItems; track item.product.id) {
+        <div class="flex items-center justify-between text-sm">
+            <div class="flex-1 min-w-0">
+                <p class="font-medium text-gray-800 truncate">{{ item.product.name }}</p>
+                <p class="text-xs text-gray-500">{{ item.quantity }} × {{ item.product.price | currency:'EUR'}}</p>
+            </div>
+            <div class="flex items-center gap-2 ml-2">
+                <span class="font-semibold text-teal-700 text-xs">
+                    {{ item.product.price * item.quantity | currency:'EUR' }}
+                </span>
+                <button class="text-gray-300 hover:text-red-400 transition-colors text-sm leading-none" title="Rimuovi"
+                    (click)="onRemoveItem(item.product.id)">×</button>
+            </div>
+        </div>
+        }
+    </div>
+
+    <!-- TOTALE -->
+    <div class="border-t border-gray-100 pt-3 flex items-center justify-between">
+        <span class="font-semibold text-gray-700 text-sm">Totale</span>
+        <span class="font-bold text-teal-700">
+            {{ totalPrice | currency:'EUR' }}
+        </span>
+    </div>
+
+    } @else {
+
+    <!-- STATO VUOTO -->
+    <div class="text-center py-6">
+        <p class="text-3xl mb-2">🛒</p>
+        <p class="text-gray-400 text-sm">Il carrello è vuoto</p>
+    </div>
+
+    }
+
+</div>

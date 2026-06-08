@@ -1,0 +1,74 @@
+<!--
+  LAB 1 — STARTER
+  ─────────────────────────────────────────────────────────────────────────────
+  File: src/app/components/product-card/product-card.html
+  ─────────────────────────────────────────────────────────────────────────────
+-->
+
+<div (click)="goToDetail()"
+     class="block bg-white overflow-hidden border cursor-pointer hover:shadow-md transition-shadow"
+     [ngClass]="{
+       'border-gray-100': product().available,
+       'border-red-200 border-4 bg-red-50 opacity-40': !product().available
+     }">
+
+  <div class="bg-gradient-to-br from-gray-100 to-gray-200 h-40 flex items-center justify-center">
+    <span class="text-5xl">📦</span>
+  </div>
+
+  <div class="p-4">
+
+    <!--
+      TODO 1 — [FACILE] Sostituire lo <span> qui sotto con uno slot di projection
+        che permette all'host di personalizzare il badge in alto sulla card.
+
+        Requisiti:
+         - Usa un <ng-content> con un selettore di attributo (vedi Scheda 06 §"Tipi di selettore").
+           Il nome dell'attributo che useremo dall'host è "badge".
+         - Il contenuto interno del <ng-content> è il FALLBACK: deve essere proprio
+           lo stesso <span> della categoria che c'è ora. Così le card che non passano
+           un badge custom continuano a mostrare la categoria del prodotto.
+
+        Vedi Scheda 06 §"Contenuto di default (fallback)" per il pattern.
+    -->
+    <span class="text-xs font-medium bg-teal-100 text-teal-700 px-2 py-0.5 rounded-full">
+      {{ product().category }}
+    </span>
+
+    <h3 class="font-semibold text-gray-800 mt-2 text-sm leading-tight">
+      {{ product().name }}
+    </h3>
+
+    <p class="text-xs text-gray-500 mt-1 line-clamp-2">{{ product().description }}</p>
+
+    <div class="flex items-center justify-between mt-3">
+      <span class="font-bold text-teal-700 text-lg">
+        {{ formattedPrice() }}
+      </span>
+
+      @if (product().available) {
+        <button (click)="$event.stopPropagation(); onAddToCartClick()"
+          class="text-xs bg-teal-600 hover:bg-teal-700 text-white px-3 py-1.5 rounded-lg transition-colors font-medium">
+          + Aggiungi
+        </button>
+      } @else {
+        <span class="text-xs text-gray-400 italic">Non disponibile</span>
+      }
+    </div>
+
+    <!--
+      TODO 2 — [FACILE] Subito qui sotto, aggiungi uno slot di projection
+        che permette all'host di iniettare contenuto opzionale come "footer"
+        della card (sarà il punto in cui la HomePage del TODO 3 metterà
+        il pulsante "Anteprima").
+
+        Requisiti:
+         - <ng-content> con selettore di attributo "footer".
+         - Nessun fallback (niente contenuto dentro al tag): se l'host non
+           proietta niente, lo slot resta vuoto.
+         - Avvolgi lo slot in un <div class="mt-2"> per dare un po' di spazio
+           sopra il contenuto del footer.
+    -->
+
+  </div>
+</div>

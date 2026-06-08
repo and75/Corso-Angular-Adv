@@ -1,0 +1,27 @@
+<!--
+  CARD CONTAINER — SOLUZIONE
+  Usa [class] per lo stile dinamico e ng-content per la proiezione del contenuto.
+-->
+<div class="bg-white rounded-xl shadow-md border border-gray-100 overflow-hidden" appHighlight>
+
+  <!--
+    INTESTAZIONE — visibile solo se title è valorizzato
+    [class]="'px-4 py-3 ' + headerClass" → applica le classi calcolate dal getter in base alla variant
+  -->
+  @if (title) {
+    <div [class]="'px-4 py-3 ' + headerClass">
+      <h3 class="font-semibold text-sm">{{ title }}</h3>
+    </div>
+  }
+
+  <!--
+    CORPO — ng-content
+    Tutto ciò che il padre scrive tra <app-card-container>...</app-card-container>
+    viene proiettato e renderizzato qui.
+    ng-content è un "placeholder" — Angular lo sostituisce con il contenuto reale.
+  -->
+  <div>
+    <ng-content></ng-content>
+  </div>
+
+</div>

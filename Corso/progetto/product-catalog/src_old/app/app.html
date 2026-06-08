@@ -1,0 +1,101 @@
+<!--
+  APP — Template shell dell'applicazione
+  Struttura: navbar fissa + <router-outlet> per il contenuto corrente.
+
+  DIRETTIVE ROUTING NEL TEMPLATE:
+  [routerLink]="['/path']"    → naviga a /path senza ricaricare la pagina
+  routerLinkActive="classe"   → aggiunge 'classe' al link quando il path è attivo
+  [routerLinkActiveOptions]   → { exact: true } → solo se il path corrisponde esattamente
+  <router-outlet />           → qui Angular renderizza il componente della rotta attiva
+
+  NOTA su [routerLink]:
+  Notazione array → [routerLink]="['/home']"         → /home
+  Notazione array → [routerLink]="['/products', 42]" → /products/42
+  Entrambe le notazioni sono valide; l'array è preferita perché più flessibile.
+-->
+<div class="min-h-screen bg-gray-50 flex flex-col">
+
+  <!-- NAVBAR PRINCIPALE -->
+  <header class="bg-teal-700 text-white shadow-md">
+    <div class="max-w-6xl mx-auto px-4 py-3 flex items-center justify-between">
+
+      <!-- Logo — cliccare torna alla home -->
+      <a
+        [routerLink]="['/home']"
+        class="text-lg font-bold tracking-tight hover:text-teal-200 transition-colors"
+      >
+        Product Catalog
+      </a>
+
+      <!-- Link di navigazione + badge carrello -->
+      <nav class="flex items-center gap-1">
+
+        <!--
+          routerLinkActive → aggiunge la classe CSS specificata quando il link è attivo.
+          [routerLinkActiveOptions]="{ exact: true }" → solo per /home esatto
+          (senza exact, il link Home sarebbe attivo anche su /home/qualcosa)
+        -->
+        <a
+          [routerLink]="['/home']"
+          routerLinkActive="bg-teal-600"
+          [routerLinkActiveOptions]="{ exact: true }"
+          class="px-3 py-1.5 rounded-lg text-sm hover:bg-teal-600 transition-colors font-medium"
+        >
+          Home
+        </a>
+
+        <!--
+          Per /catalog non servono routerLinkActiveOptions con exact:
+          non ci sono rotte figlio di /catalog che vorremo trattare diversamente.
+        -->
+        <a
+          [routerLink]="['/catalog']"
+          routerLinkActive="bg-teal-600"
+          class="px-3 py-1.5 rounded-lg text-sm hover:bg-teal-600 transition-colors font-medium"
+        >
+          Catalogo
+        </a>
+
+        <!-- Badge carrello — si aggiorna ogni volta che cambia cartCount -->
+        <div class="relative ml-3">
+          <span class="text-sm cursor-default">🛒</span>
+          @if (cartCount > 0) {
+            <!--
+              @if → control flow sintattico (Angular 17+)
+              Mostra il badge solo se ci sono articoli nel carrello
+            -->
+            <span class="absolute -top-2 -right-2 bg-red-500 text-white text-xs
+                         rounded-full w-4 h-4 flex items-center justify-center font-bold">
+              {{ cartCount }}
+            </span>
+          }
+        </div>
+
+      </nav>
+    </div>
+  </header>
+
+  <!-- CONTENUTO PRINCIPALE — Router inserisce qui il componente della rotta -->
+  <main class="flex-1">
+    <!--
+      <router-outlet> è il "punto di montaggio" del Router.
+
+      Come funziona:
+      1. L'URL cambia (click su routerLink o router.navigate())
+      2. Il Router cerca la rotta corrispondente in app.routes.ts
+      3. Il componente trovato viene caricato (lazy se loadComponent)
+      4. Angular rimuove il componente precedente da qui
+      5. Angular inserisce il nuovo componente qui
+
+      Il componente viene inserito come FRATELLO di <router-outlet>,
+      non come figlio — è un dettaglio implementativo di Angular.
+    -->
+    <router-outlet />
+  </main>
+
+  <!-- FOOTER -->
+  <footer class="bg-white border-t border-gray-200 text-center py-4 text-sm text-gray-400">
+    Product Catalog — Angular Routing
+  </footer>
+
+</div>

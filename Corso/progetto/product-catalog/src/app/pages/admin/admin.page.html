@@ -1,0 +1,35 @@
+<!-- admin.page.html — SOLUZIONE lab-13b -->
+
+<div class="max-w-4xl mx-auto px-4 py-8">
+
+  <div class="mb-8">
+    <h1 class="text-3xl font-bold text-gray-900">Area Admin</h1>
+    <p class="text-gray-500 mt-1">Gestisci il catalogo prodotti</p>
+  </div>
+
+  <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+    <a routerLink="/products/new"
+       class="flex items-center gap-4 p-5 bg-white rounded-xl border border-gray-200
+              shadow-sm hover:shadow-md hover:border-teal-300 transition-all">
+      <div class="w-12 h-12 bg-teal-50 rounded-xl flex items-center justify-center text-2xl">
+        ➕
+      </div>
+      <div>
+        <p class="font-semibold text-gray-900">Aggiungi Prodotto</p>
+        <p class="text-sm text-gray-500">Inserisci un nuovo prodotto nel catalogo</p>
+      </div>
+    </a>
+
+    <a routerLink="/home"
+       class="flex items-center gap-4 p-5 bg-white rounded-xl border border-gray-200
+              shadow-sm hover:shadow-md hover:border-teal-300 transition-all">
+      <div class="w-12 h-12 bg-teal-50 rounded-xl flex items-center justify-center text-2xl">
+        📦
+      </div>
+      <div>
+        <p class="font-semibold text-gray-900">Vedi Catalogo</p>
+        <p class="text-sm text-gray-500">Torna alla lista prodotti</p>
+      </div>
+    </a>
+  </div>
+</div>

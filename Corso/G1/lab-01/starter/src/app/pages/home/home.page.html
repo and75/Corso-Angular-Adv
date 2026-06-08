@@ -1,0 +1,108 @@
+<!--
+  LAB 1 — STARTER
+  ─────────────────────────────────────────────────────────────────────────────
+  File: src/app/pages/home/home.page.html
+  ─────────────────────────────────────────────────────────────────────────────
+-->
+
+<div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+
+    <!-- COLONNA SINISTRA: filtro + griglia prodotti (2/3 della larghezza) -->
+    <div class="lg:col-span-2">
+        <div class="mb-4">
+            <input type="text" [(ngModel)]="searchTerm" placeholder="Cerca per nome o descrizione..." class="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm
+           focus:outline-none focus:ring-2 focus:ring-teal-500" />
+        </div>
+
+        <div class="flex flex-wrap gap-2 mb-4">
+            @for (cat of categories; track cat) {
+            <button (click)="onSelectCategory(cat)"
+                [class]="selectedCategory === cat
+                ? 'bg-teal-600 text-white px-3 py-1 rounded-full text-xs font-medium transition-colors'
+                : 'bg-gray-200 text-gray-600 hover:bg-gray-300 px-3 py-1 rounded-full text-xs font-medium transition-colors'">
+                {{ cat }}
+            </button>
+            }
+        </div>
+
+        @if (isLoading) {
+        <div class="flex flex-col items-center justify-center py-24">
+            <div class="w-12 h-12 border-4 border-gray-200 border-t-teal-600 rounded-full animate-spin mb-4"></div>
+            <p class="text-gray-500 text-sm">Caricamento prodotti...</p>
+        </div>
+        } @else if (error) {
+        <div class="flex flex-col items-center justify-center py-24">
+            <p class="text-5xl mb-4">⚠️</p>
+            <p class="text-gray-700 font-medium mb-2">Si è verificato un errore</p>
+            <p class="text-gray-500 text-sm mb-6">{{ error }}</p>
+            <button (click)="retry()"
+                class="px-4 py-2 bg-teal-600 hover:bg-teal-700 text-white rounded-lg text-sm transition-colors">
+                Riprova
+            </button>
+        </div>
+
+        } @else {
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            @for (product of filteredProducts; track product.id) {
+            <app-card-container [title]="product.name" [variant]="getVariant(product)">
+                <!--
+                  TODO 3 — [FACILE] Riscrivere <app-product-card ... /> qui sotto:
+                    invece di chiuderlo subito (forma auto-chiusa), aprilo e
+                    chiudilo come tag esteso, e proietta DUE elementi figli:
+
+                    a) Un <span badge> CONDIZIONALE (solo per prodotti premium):
+                        - mostralo solo se product.price > 1000 (usa @if).
+                        - stile suggerito: amber (bg-amber-100 text-amber-700)
+                          con badge "🌟 Premium".
+                        - l'attributo "badge" è quello che matcha il selettore
+                          <ng-content select="[badge]"> definito in product-card.html.
+
+                    b) Un <button footer> SEMPRE PRESENTE per aprire la quick-view:
+                        - testo: "Anteprima".
+                        - on (click) deve chiamare openQuickView(product) — il metodo
+                          è il TODO 6 in home.page.ts.
+                        - Aggiungi $event.stopPropagation() per evitare che il click
+                          bubble fino al div esterno della card e faccia partire
+                          goToDetail().
+                        - stile suggerito: w-full text-xs border border-teal-600
+                          text-teal-600 hover:bg-teal-50 px-3 py-1.5 rounded-lg.
+                -->
+                <app-product-card [product]="product" (addToCart)="onAddToCart($event)" />
+            </app-card-container>
+            } @empty {
+            <p class="text-gray-400 text-sm col-span-2">
+                Nessun prodotto in questa categoria.
+            </p>
+            }
+        </div>
+        }
+
+        <p class="text-sm text-gray-500 mt-4 text-right">
+            {{ (filteredProducts | filterProducts : searchTerm).length }} prodotti trovati
+        </p>
+
+    </div>
+
+    <!-- COLONNA DESTRA: riepilogo carrello (1/3 della larghezza) -->
+    <div class="lg:col-span-1">
+        <app-cart-summary
+          [cartItems]="productService.cartItems()"
+          (clearCart)="onClearCart()"
+          (removeItem)="onRemoveItem($event)"
+        />
+    </div>
+
+</div>
+
+<!--
+  TODO 5 — [TEMPLATE] Aggiungi qui sotto l'ANCORA dove verrà montato dinamicamente
+    il ProductQuickView. È un <ng-container> con una reference variable di template;
+    sarà il valore letto dal viewChild('NOME_REFERENCE', { read: ViewContainerRef })
+    in home.page.ts.
+
+    Requisiti:
+     - Deve stare FUORI da @for e @if (altrimenti il signal del viewChild punterà
+       a un container che esiste solo in certe condizioni).
+     - Reference variable: "quickViewAnchor" (lo stesso nome verrà letto in TS).
+     - Non genera DOM proprio (ng-container è invisibile a render time).
+-->

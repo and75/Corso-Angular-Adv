@@ -1,0 +1,70 @@
+{
+  "products": [
+    {
+      "id": "1",
+      "name": "MacBook Pro 14\"",
+      "price": 2499,
+      "category": "Laptop",
+      "description": "Chip M3 Pro, 18GB RAM, 512GB SSD.",
+      "available": true
+    },
+    {
+      "id": "2",
+      "name": "iPhone 16 Pro",
+      "price": 1299,
+      "category": "Smartphone",
+      "description": "Chip A18 Pro, fotocamera 48MP, titanio.",
+      "available": true
+    },
+    {
+      "id": "3",
+      "name": "AirPods Pro 2",
+      "price": 279,
+      "category": "Audio",
+      "description": "Cancellazione attiva del rumore, chip H2.",
+      "available": true
+    },
+    {
+      "id": "4",
+      "name": "iPad Air M2",
+      "price": 799,
+      "category": "Tablet",
+      "description": "Display Liquid Retina 11\", chip M2.",
+      "available": false
+    },
+    {
+      "id": "5",
+      "name": "Magic Keyboard",
+      "price": 109,
+      "category": "Accessori",
+      "description": "Tastiera wireless con Touch ID.",
+      "available": true
+    },
+    {
+      "id": "6",
+      "name": "Apple Watch Series 10",
+      "price": 449,
+      "category": "Wearable",
+      "description": "Display sempre attivo, GPS, frequenza cardiaca.",
+      "available": true
+    },
+    {
+      "name": "Test nuovo prodotto",
+      "price": 1200,
+      "category": "Laptop",
+      "description": "Lorem impsum bla bla bla bla bla bla bla",
+      "available": true,
+      "id": "bHF1ET_fpYU"
+    },
+    {
+      "name": "Andrea Porcella",
+      "price": 1266,
+      "category": "Laptop",
+      "description": "pi pippo pippo",
+      "available": true,
+      "id": "whWGtxegzgA"
+    }
+  ],
+  "users": [],
+  "$schema": "./node_modules/json-server/schema.json"
+}

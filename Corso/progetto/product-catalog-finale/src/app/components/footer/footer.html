@@ -1,0 +1,25 @@
+<!--
+  LAB 03 — STARTER
+  ─────────────────────────────────────────────────────────────────────────────
+  File: components/footer/footer.html
+  Template del Footer — già completo, non richiede modifiche.
+  ─────────────────────────────────────────────────────────────────────────────
+-->
+
+<!--
+  mt-auto → spinge il footer in fondo alla pagina (funziona con flex-col sul padre)
+  py-6    → padding verticale 24px
+-->
+<footer class="bg-white border-t border-gray-200 mt-auto py-6">
+  <div class="max-w-5xl mx-auto px-6 flex items-center justify-between text-sm text-gray-400">
+
+    <!--
+      INTERPOLAZIONE — mostra le proprietà della classe TypeScript.
+      currentYear e appName sono definite in footer.ts.
+    -->
+    <span>© {{ currentYear }} {{ appName }}</span>
+
+    <span>Angular 17+ · Tailwind CSS</span>
+
+  </div>
+</footer>

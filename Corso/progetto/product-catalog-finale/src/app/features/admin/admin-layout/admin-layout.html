@@ -1,0 +1,40 @@
+<!--
+  admin-layout.html — SOLUTION Lab 3 G2
+  Sidebar + main con <router-outlet /> interno.
+-->
+
+<div class="grid grid-cols-[200px_1fr] min-h-[calc(100vh-200px)]">
+
+  <aside class="bg-gray-50 border-r p-4">
+    <h2 class="font-bold text-sm uppercase text-gray-500 mb-4">Admin</h2>
+    <nav class="flex flex-col gap-1">
+      <!-- ✅ Dashboard: routerLink="" (relativo a /admin) + exact match perché non si attivi su qualsiasi rotta admin -->
+      <a routerLink=""
+         [routerLinkActiveOptions]="{ exact: true }"
+         routerLinkActive="bg-teal-100 font-semibold"
+         class="px-3 py-2 rounded-lg text-sm text-gray-700 hover:bg-gray-100">
+        Dashboard
+      </a>
+
+      <!-- ✅ Prodotti: routerLink="products" (relativo a /admin) → /admin/products -->
+      <a routerLink="products"
+         routerLinkActive="bg-teal-100 font-semibold"
+         class="px-3 py-2 rounded-lg text-sm text-gray-700 hover:bg-gray-100">
+        Prodotti
+      </a>
+
+      <!-- ✅ Aggiungi: routerLink="/products/new" ASSOLUTO — rotta top-level del seme -->
+      <a routerLink="/products/new"
+         routerLinkActive="bg-teal-100 font-semibold"
+         class="px-3 py-2 rounded-lg text-sm text-gray-700 hover:bg-gray-100">
+        + Aggiungi prodotto
+      </a>
+    </nav>
+  </aside>
+
+  <main class="p-6">
+    <!-- ✅ OUTLET INTERNO: qui Angular monta i children dell'area admin -->
+    <router-outlet />
+  </main>
+
+</div>

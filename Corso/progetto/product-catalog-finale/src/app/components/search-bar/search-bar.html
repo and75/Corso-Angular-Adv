@@ -1,0 +1,51 @@
+<!--
+  SEARCH BAR COMPONENT — Template SOLUZIONE
+  Campo di ricerca con icona, two-way binding e pulsante reset condizionale.
+
+  [(ngModel)]="searchTerm"   → two-way binding: input↔proprietà sincronizzati
+  (input)="onSearchChange()" → notifica il padre ad ogni keystroke
+  @if (searchTerm)            → mostra "×" solo quando c'è testo da cancellare
+  (click)="clearSearch()"    → azzera campo e notifica padre
+-->
+
+<div class="flex items-center gap-2 w-full max-w-md mx-auto">
+
+  <!-- CONTENITORE INPUT + ICONA -->
+  <div class="relative flex-1">
+
+    <!-- ICONA LENTE — posizionata in overlay con absolute -->
+    <span class="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 text-sm">🔍</span>
+
+    <!--
+      INPUT DI RICERCA
+      [(ngModel)]          → two-way binding: legge e scrive searchTerm
+      (input)              → evento DOM: si attiva ad ogni carattere inserito
+      pl-9                 → padding-left per non coprire l'icona lente
+    -->
+    <input
+      type="text"
+      [(ngModel)]="searchTerm"
+      (input)="onSearchChange()"
+      placeholder="Cerca prodotti..."
+      class="w-full pl-9 pr-4 py-2 border border-gray-300 rounded-lg text-sm
+             focus:outline-none focus:ring-2 focus:ring-teal-500 focus:border-transparent
+             bg-white shadow-sm"
+    />
+  </div>
+
+  <!--
+    PULSANTE RESET — visibile solo se c'è testo
+    @if (searchTerm): truthy check — stringa vuota è falsy in JavaScript
+  -->
+  @if (searchTerm) {
+    <button
+      (click)="clearSearch()"
+      class="px-3 py-2 text-sm bg-gray-100 hover:bg-gray-200 text-gray-600
+             rounded-lg border border-gray-300 transition-colors"
+      title="Cancella ricerca"
+    >
+      ×
+    </button>
+  }
+
+</div>

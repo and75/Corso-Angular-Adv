@@ -1,0 +1,123 @@
+<!--
+  PRODUCT DETAIL PAGE — Template dettaglio prodotto
+
+  FLUSSO:
+  1. Componente creato → isLoading = true → messaggio attesa
+  2. ngOnInit() → legge :id → HTTP GET /products/:id
+  3a. Prodotto trovato → product = {...}, isLoading = false → mostra card
+  3b. Prodotto non trovato → notFound = true, isLoading = false → messaggio 404
+
+  [routerLink]="['/catalog']" → link dichiarativo di ritorno
+  Alternativa programmatica: location.back() oppure router.navigate(['/catalog'])
+-->
+<div class="max-w-2xl mx-auto px-4 py-6">
+
+  <!--
+    Link di ritorno al catalogo.
+    [routerLink] → navigazione SPA (nessun reload).
+
+    NOTA: routerLink con notazione array per path con parametri:
+    [routerLink]="['/products', 1]" → /products/1
+    Per path semplici anche la stringa va bene:
+    [routerLink]="'/catalog'" oppure [routerLink]="['/catalog']"
+  -->
+  <a
+    [routerLink]="['/catalog']"
+    class="text-sm text-teal-600 hover:text-teal-700 mb-6 inline-flex items-center gap-1 transition-colors"
+  >
+    ← Torna al catalogo
+  </a>
+
+  <!-- STATO: caricamento in corso -->
+  @if (isLoading) {
+    <div class="text-center py-12 text-gray-400">
+      <p class="text-4xl mb-3 animate-pulse">⏳</p>
+      <p>Caricamento prodotto...</p>
+    </div>
+
+  <!-- STATO: prodotto non trovato (404 dal server) -->
+  } @else if (notFound) {
+    <div class="text-center py-12">
+      <p class="text-5xl mb-4">🔍</p>
+      <p class="text-gray-700 font-medium mb-2">Prodotto non trovato</p>
+      <p class="text-gray-400 text-sm mb-6">
+        Il prodotto richiesto non esiste o è stato rimosso.
+      </p>
+      <a
+        [routerLink]="['/catalog']"
+        class="text-teal-600 hover:text-teal-700 text-sm underline"
+      >
+        Vai al catalogo
+      </a>
+    </div>
+
+  <!-- STATO: prodotto caricato con successo -->
+  } @else if (product) {
+    <div class="bg-white rounded-xl shadow-md border border-gray-100 overflow-hidden">
+
+      <!-- Immagine prodotto -->
+      <div class="bg-gradient-to-br from-gray-100 to-gray-200 h-48 flex items-center justify-center">
+        @if (product.imageUrl) {
+          <img
+            [src]="product.imageUrl"
+            [alt]="product.name"
+            class="h-full w-full object-cover"
+          />
+        } @else {
+          <span class="text-6xl">📦</span>
+        }
+      </div>
+
+      <!-- Dettagli prodotto -->
+      <div class="p-6">
+
+        <!-- Categoria -->
+        <span class="text-xs bg-teal-100 text-teal-700 px-2 py-0.5 rounded-full font-medium">
+          {{ product.category }}
+        </span>
+
+        <!-- Nome -->
+        <h1 class="text-2xl font-bold text-gray-800 mt-2 mb-3">
+          {{ product.name }}
+        </h1>
+
+        <!-- Descrizione -->
+        @if (product.description) {
+          <p class="text-gray-500 leading-relaxed">{{ product.description }}</p>
+        }
+
+        <!-- Prezzo e azione -->
+        <div class="flex items-center justify-between mt-6 pt-4 border-t border-gray-100">
+
+          <span class="text-2xl font-bold text-teal-700">
+            <!--
+              currency pipe: formatta il numero come valuta
+              'EUR'     → codice valuta ISO
+              'symbol'  → usa il simbolo (€) non il codice (EUR)
+              '1.2-2'   → min 1 cifra intera, min 2 decimali, max 2 decimali
+            -->
+            {{ product.price | currency:'EUR':'symbol':'1.2-2' }}
+          </span>
+
+          <!--
+            Mostra il pulsante solo se il prodotto è disponibile.
+            (click)="onAddToCart()" → gestito nel componente TypeScript.
+          -->
+          @if (product.available) {
+            <button
+              (click)="onAddToCart()"
+              class="px-4 py-2 bg-teal-600 hover:bg-teal-700 text-white
+                     rounded-lg font-medium transition-colors"
+            >
+              + Aggiungi al carrello
+            </button>
+          } @else {
+            <span class="text-red-400 text-sm font-medium">Non disponibile</span>
+          }
+
+        </div>
+      </div>
+    </div>
+  }
+
+</div>

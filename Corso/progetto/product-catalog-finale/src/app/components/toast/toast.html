@@ -1,0 +1,20 @@
+<!--
+  LAB 2 — SOLUTION
+  ─────────────────────────────────────────────────────────────────────────────
+  File: src/app/components/toast/toast.html
+  Posizione: fixed top-right, z-30 (sopra ai contenuti normali).
+  ─────────────────────────────────────────────────────────────────────────────
+-->
+<div class="fixed top-4 right-4 flex flex-col gap-2 z-30 max-w-xs">
+  @for (n of list(); track n.id) {
+    <div [class]="'rounded-lg shadow-lg px-4 py-3 text-sm border ' +
+      (n.type === 'success' ? 'bg-green-50 border-green-200 text-green-800' :
+       n.type === 'error'   ? 'bg-red-50 border-red-200 text-red-800' :
+                              'bg-blue-50 border-blue-200 text-blue-800')">
+      <div class="flex justify-between items-start gap-3">
+        <span>{{ n.message }}</span>
+        <button (click)="dismiss(n.id)" class="opacity-60 hover:opacity-100 leading-none">✕</button>
+      </div>
+    </div>
+  }
+</div>

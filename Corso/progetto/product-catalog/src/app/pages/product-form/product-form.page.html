@@ -1,0 +1,124 @@
+<!-- product-form.page.html — SOLUZIONE lab-13b -->
+
+<div class="max-w-2xl mx-auto px-4 py-8">
+
+  <div class="mb-8">
+    <h1 class="text-3xl font-bold text-gray-900">Aggiungi Prodotto</h1>
+    <p class="text-gray-500 mt-1">Compila tutti i campi per aggiungere un nuovo prodotto al catalogo.</p>
+  </div>
+
+  @if (successMessage) {
+    <div class="mb-6 p-4 bg-green-50 border border-green-200 rounded-lg flex items-center gap-3">
+      <svg class="w-5 h-5 text-green-500 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+        <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
+      </svg>
+      <p class="text-green-700 font-medium">{{ successMessage }}</p>
+    </div>
+  }
+
+  @if (errorMessage) {
+    <div class="mb-6 p-4 bg-red-50 border border-red-200 rounded-lg">
+      <p class="text-red-700 font-medium">{{ errorMessage }}</p>
+    </div>
+  }
+
+  <form
+    [formGroup]="productForm"
+    (ngSubmit)="onSubmit()"
+    class="bg-white rounded-xl shadow-sm border border-gray-200 p-6 space-y-6"
+    novalidate
+  >
+    <div>
+      <label for="name" class="block text-sm font-semibold text-gray-700 mb-1">
+        Nome prodotto <span class="text-red-500">*</span>
+      </label>
+      <input
+        id="name" type="text" formControlName="name"
+        placeholder="es. MacBook Pro 14&quot;"
+        class="w-full px-3 py-2 border rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-teal-500 transition"
+        [class.border-red-400]="isInvalid('name')"
+        [class.border-gray-300]="!isInvalid('name')"
+      />
+      @if (isInvalid('name')) {
+        <p class="mt-1 text-xs text-red-500">{{ getFieldError('name') }}</p>
+      }
+    </div>
+
+    <div>
+      <label for="price" class="block text-sm font-semibold text-gray-700 mb-1">
+        Prezzo (€) <span class="text-red-500">*</span>
+      </label>
+      <input
+        id="price" type="number" formControlName="price"
+        placeholder="es. 1299" min="1"
+        class="w-full px-3 py-2 border rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-teal-500 transition"
+        [class.border-red-400]="isInvalid('price')"
+        [class.border-gray-300]="!isInvalid('price')"
+      />
+      @if (isInvalid('price')) {
+        <p class="mt-1 text-xs text-red-500">{{ getFieldError('price') }}</p>
+      }
+    </div>
+
+    <div>
+      <label for="category" class="block text-sm font-semibold text-gray-700 mb-1">
+        Categoria <span class="text-red-500">*</span>
+      </label>
+      <select
+        id="category" formControlName="category"
+        class="w-full px-3 py-2 border rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-teal-500 transition bg-white"
+        [class.border-red-400]="isInvalid('category')"
+        [class.border-gray-300]="!isInvalid('category')"
+      >
+        <option value="">-- Seleziona categoria --</option>
+        @for (cat of categories; track cat) {
+          <option [value]="cat">{{ cat }}</option>
+        }
+      </select>
+      @if (isInvalid('category')) {
+        <p class="mt-1 text-xs text-red-500">{{ getFieldError('category') }}</p>
+      }
+    </div>
+
+    <div>
+      <label for="description" class="block text-sm font-semibold text-gray-700 mb-1">
+        Descrizione <span class="text-red-500">*</span>
+      </label>
+      <textarea
+        id="description" formControlName="description"
+        rows="3" placeholder="Descrivi il prodotto (minimo 10 caratteri)..."
+        class="w-full px-3 py-2 border rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-teal-500 transition resize-none"
+        [class.border-red-400]="isInvalid('description')"
+        [class.border-gray-300]="!isInvalid('description')"
+      ></textarea>
+      @if (isInvalid('description')) {
+        <p class="mt-1 text-xs text-red-500">{{ getFieldError('description') }}</p>
+      }
+    </div>
+
+    <div class="flex items-center gap-3">
+      <input
+        id="available" type="checkbox" formControlName="available"
+        class="w-4 h-4 text-teal-600 border-gray-300 rounded focus:ring-teal-500"
+      />
+      <label for="available" class="text-sm font-medium text-gray-700">
+        Disponibile per l'acquisto
+      </label>
+    </div>
+
+    <div class="flex items-center justify-between pt-4 border-t border-gray-100">
+      <a routerLink="/admin" class="text-sm text-gray-500 hover:text-gray-700 transition-colors">
+        ← Torna all'admin
+      </a>
+      <button
+        type="submit" [disabled]="isLoading"
+        class="px-6 py-2 bg-teal-600 text-white text-sm font-semibold rounded-lg
+               hover:bg-teal-700 focus:outline-none focus:ring-2 focus:ring-teal-500 focus:ring-offset-2
+               disabled:opacity-50 disabled:cursor-not-allowed transition-all"
+      >
+        @if (isLoading) { Salvataggio... } @else { Salva Prodotto }
+      </button>
+    </div>
+  </form>
+
+</div>

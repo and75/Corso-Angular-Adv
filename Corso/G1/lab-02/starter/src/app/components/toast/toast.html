@@ -1,0 +1,29 @@
+<!--
+  LAB 2 — STARTER
+  ─────────────────────────────────────────────────────────────────────────────
+  File: src/app/components/toast/toast.html
+  ─────────────────────────────────────────────────────────────────────────────
+
+  TODO 2 — [TEMPLATE] Scrivere il markup dello stack di toast.
+
+    Requisiti funzionali:
+     - Contenitore: <div> fisso in alto a destra, sopra a tutto il resto
+       (Tailwind: fixed top-4 right-4 z-30 max-w-xs flex flex-col gap-2).
+
+     - Ciclo: usa @for sul signal list() (chiamato con le parentesi) — track n.id.
+
+     - Per OGNI toast nel ciclo:
+        - una "card" con bordo arrotondato, ombra, padding, testo piccolo;
+        - colore di sfondo/bordo/testo dipendente dal type:
+            'success' → bg-green-50 / border-green-200 / text-green-800
+            'error'   → bg-red-50   / border-red-200   / text-red-800
+            'info'    → bg-blue-50  / border-blue-200  / text-blue-800
+          (puoi usare [class]="..." con un'espressione condizionale a 3 vie, oppure
+          [ngClass]="{...}" con NgClass importato);
+        - dentro la card: il messaggio (n.message) a sinistra, e a destra un
+          pulsante "✕" che chiama dismiss(n.id) — il metodo del TODO 2 in toast.ts.
+
+    Ricorda: list() — signal letto con le parentesi.
+
+  ─────────────────────────────────────────────────────────────────────────────
+-->

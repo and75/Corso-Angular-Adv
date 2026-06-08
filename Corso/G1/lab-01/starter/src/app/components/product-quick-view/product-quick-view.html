@@ -1,0 +1,26 @@
+<!--
+  LAB 1 — STARTER
+  ─────────────────────────────────────────────────────────────────────────────
+  File: src/app/components/product-quick-view/product-quick-view.html
+  ─────────────────────────────────────────────────────────────────────────────
+
+  TODO 4 — [TEMPLATE] Scrivere il markup della preview.
+
+    Requisiti funzionali:
+     - Posizione: fisso in basso a destra, sopra agli altri elementi
+       (Tailwind: fixed bottom-4 right-4 z-20, larghezza w-80).
+     - Stile: card bianca con bordo, ombra e padding (rounded-xl shadow-xl border p-4).
+     - Contenuto da mostrare leggendo i signal:
+        1. Nome del prodotto come titolo (es. <h3> con classi font-bold text-teal-700)
+        2. Descrizione del prodotto come <p>
+        3. Prezzo formattato in evidenza (usa il computed formattedPrice del TODO 4 nel .ts)
+        4. Categoria del prodotto in piccolo
+     - Pulsante "✕" (close) in alto a destra. Cliccando, deve emettere l'evento
+       "close" del signal output. La sintassi del template per emettere un signal
+       output è la stessa di un @Output classico: (click)="close.emit()".
+
+    Regola d'oro: ogni signal/computed nel template va chiamato con le PARENTESI,
+    es. product().name (non product.name).
+
+  ─────────────────────────────────────────────────────────────────────────────
+-->

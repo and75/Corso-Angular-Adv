@@ -1,0 +1,128 @@
+<!-- checkout.page.html — SOLUZIONE lab-finale -->
+
+<div class="max-w-4xl mx-auto py-8 px-4">
+
+  <h1 class="text-3xl font-bold text-gray-900 mb-2">Checkout</h1>
+  <p class="text-gray-500 mb-8">Completa l'ordine compilando il modulo di spedizione.</p>
+
+  <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+
+    <!-- ── Colonna sinistra: Form spedizione ── -->
+    <div>
+      <h2 class="text-xl font-semibold text-gray-800 mb-4">Dati di spedizione</h2>
+
+      <form [formGroup]="checkoutForm" (ngSubmit)="onSubmit()" class="space-y-5" novalidate>
+
+        <!-- Nome e cognome -->
+        <div>
+          <label class="block text-sm font-medium text-gray-700 mb-1">Nome e cognome *</label>
+          <input type="text" formControlName="customerName" placeholder="Mario Rossi"
+                 class="w-full border rounded-lg px-4 py-2.5 text-sm
+                        focus:outline-none focus:ring-2 focus:ring-teal-500 transition-shadow"
+                 [class.border-red-400]="isInvalid('customerName')"
+                 [class.border-gray-300]="!isInvalid('customerName')" />
+          @if (isInvalid('customerName')) {
+            <p class="text-red-500 text-xs mt-1">Il nome è obbligatorio.</p>
+          }
+        </div>
+
+        <!-- Email -->
+        <div>
+          <label class="block text-sm font-medium text-gray-700 mb-1">Email *</label>
+          <input type="email" formControlName="email" placeholder="mario@esempio.it"
+                 class="w-full border rounded-lg px-4 py-2.5 text-sm
+                        focus:outline-none focus:ring-2 focus:ring-teal-500 transition-shadow"
+                 [class.border-red-400]="isInvalid('email')"
+                 [class.border-gray-300]="!isInvalid('email')" />
+          @if (isInvalid('email')) {
+            <p class="text-red-500 text-xs mt-1">Inserisci un'email valida.</p>
+          }
+        </div>
+
+        <!-- Indirizzo -->
+        <div>
+          <label class="block text-sm font-medium text-gray-700 mb-1">Indirizzo di spedizione *</label>
+          <textarea formControlName="address" placeholder="Via Roma 1, 20100 Milano"
+                    rows="3"
+                    class="w-full border rounded-lg px-4 py-2.5 text-sm
+                           focus:outline-none focus:ring-2 focus:ring-teal-500 transition-shadow resize-none"
+                    [class.border-red-400]="isInvalid('address')"
+                    [class.border-gray-300]="!isInvalid('address')"></textarea>
+          @if (isInvalid('address')) {
+            <p class="text-red-500 text-xs mt-1">L'indirizzo deve essere di almeno 10 caratteri.</p>
+          }
+        </div>
+
+        <!-- Note opzionali -->
+        <div>
+          <label class="block text-sm font-medium text-gray-700 mb-1">
+            Note <span class="text-gray-400 font-normal">(opzionale)</span>
+          </label>
+          <textarea formControlName="notes" placeholder="Es. Citofono rotto, chiamare al..."
+                    rows="2"
+                    class="w-full border border-gray-300 rounded-lg px-4 py-2.5 text-sm
+                           focus:outline-none focus:ring-2 focus:ring-teal-500 transition-shadow resize-none"></textarea>
+        </div>
+
+        <button type="submit"
+                class="w-full bg-teal-600 text-white font-semibold py-3 rounded-lg
+                       hover:bg-teal-700 transition-all">
+          Conferma ordine
+        </button>
+
+      </form>
+    </div>
+
+    <!-- ── Colonna destra: Riepilogo carrello ── -->
+    <div>
+      <h2 class="text-xl font-semibold text-gray-800 mb-4">
+        Il tuo ordine
+        @if (hasItems()) {
+          <span class="text-sm font-normal text-gray-400 ml-1">
+            ({{ itemCount() }} {{ itemCount() === 1 ? 'articolo' : 'articoli' }})
+          </span>
+        }
+      </h2>
+
+      @if (!hasItems()) {
+        <div class="bg-gray-50 rounded-xl p-8 text-center">
+          <p class="text-4xl mb-3">🛒</p>
+          <p class="text-gray-500">Il carrello è vuoto.</p>
+          <a routerLink="/home" class="text-teal-600 hover:underline text-sm mt-2 inline-block">
+            Vai al catalogo →
+          </a>
+        </div>
+      }
+
+      @if (hasItems()) {
+        <div class="bg-white border border-gray-200 rounded-xl overflow-hidden shadow-sm">
+          <ul class="divide-y divide-gray-100">
+            @for (item of cartItems(); track item.product.id) {
+              <li class="flex items-center justify-between px-5 py-4">
+                <div>
+                  <p class="font-medium text-gray-900 text-sm">{{ item.product.name }}</p>
+                  <p class="text-xs text-gray-400 mt-0.5">
+                    {{ item.product.price | currency:'EUR':'symbol':'1.0-0' }} × {{ item.quantity }}
+                  </p>
+                </div>
+                <span class="font-semibold text-gray-800 text-sm">
+                  {{ (item.product.price * item.quantity) | currency:'EUR':'symbol':'1.0-0' }}
+                </span>
+              </li>
+            }
+          </ul>
+          <div class="bg-gray-50 px-5 py-4 flex justify-between items-center">
+            <span class="font-semibold text-gray-700">Totale</span>
+            <span class="text-xl font-bold text-teal-700">
+              {{ cartTotal() | currency:'EUR':'symbol':'1.0-0' }}
+            </span>
+          </div>
+        </div>
+        <p class="text-xs text-gray-400 mt-3 text-center">
+          Spese di spedizione incluse. IVA inclusa.
+        </p>
+      }
+
+    </div>
+  </div>
+</div>
